@@ -5,8 +5,8 @@
 <hibernate-configuration>
 	<session-factory>
 		<!-- Database connection properties - Driver, URL, user, password -->
-		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-		<property name="hibernate.connection.url">jdbc:mysql://localhost/managementdb</property>
+		<property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/managementdb</property>
 		<property name="hibernate.connection.username">root</property>
 		<property name="hibernate.connection.password">admin</property>
 		
@@ -14,6 +14,6 @@
 		<property name="hibernate.current_session_context_class">thread</property>
 		
 		<!-- Mapping with model class containing annotations -->
-		<mapping class="com.journaldev.hibernate.model.Employee1"/>
+		<mapping class="com.hcl.models.Employee"/>
 	</session-factory>
 </hibernate-configuration>

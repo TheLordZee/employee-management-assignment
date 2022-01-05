@@ -3,7 +3,7 @@
 "http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-	<class name="com.journaldev.hibernate.model.Employee" table="EMPLOYEES">
+	<class name="com.hcl.models.Employee" table="employees">
         <id name="id" type="int">
             <column name="ID" /> 
            <!--  <generator class="assigned" /> -->
@@ -11,10 +11,7 @@
         <property name="name" type="java.lang.String">
             <column name="NAME" />
         </property>
-        <property name="role" type="java.lang.String">
-            <column name="ROLE" />
-        </property>
-        <property name="dateofbirth" type="java.util.Date">
+        <property name="dob" type="java.util.Date">
         	<column name="DATEOFBIRTH" />
         </property>
         <property name="salary" type="int">
