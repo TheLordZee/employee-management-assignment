@@ -26,20 +26,19 @@ public class EmployeeDisplay {
 					System.out.println("\nEnter 'RETURN' to go back or 'QUICK' to exit");
 					input = scan.nextLine();
 					if(input.equals("QUIT")) {
-						System.out.println("QUITTING PROGRAM");
-						System.exit(0);
+						App.quit();
 					} else if(!input.equals("RETURN")) {
 						System.out.println("Invalid Input!");
 					}
 				} catch(Exception e) {
+					System.out.println(e.getMessage());
 					System.out.println("Invalid input. Employee with ID of " + input + " does not exist");
 					System.out.println("Please enter the ID number of the Employee you would like to see, 'RETURN' to go back, or 'QUIT' to exit:\n");
 					
 					input = scan.nextLine();
 					
 					if(input.equals("QUIT")) {
-						System.out.println("QUITTING PROGRAM");
-						System.exit(0);
+						App.quit();
 					}
 				}
 			}

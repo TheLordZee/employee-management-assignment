@@ -15,6 +15,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.CriteriaQuery;
 
 import com.hcl.hibernate.util.HibernateUtil;
+import com.hcl.log4j.AppLogger;
 
 public class EmployeesAPI {
 	public static void insertEmployee(String name, LocalDate dob, int salary) {
@@ -33,9 +34,9 @@ public class EmployeesAPI {
 		//Commit transaction
 		session.getTransaction().commit();
 		System.out.println("Employee ID="+emp.getId());
-					
-		//terminate session factory, otherwise program won't end
-		HibernateUtil.getSessionFactory().close();
+		int id = emp.getId();
+		System.out.println("Employee successfully created");
+		AppLogger.log.info("Employee " + id + " created");
 	}
 	
 	public static void getAll() {
@@ -49,8 +50,9 @@ public class EmployeesAPI {
 		List<Employee> empList = emps.list();
 		
 		empList.stream().forEach(e -> e.displayData());
-		//terminate session factory, otherwise program won't end
-		HibernateUtil.getSessionFactory().close();
+		
+		session.close();
+		AppLogger.log.info("All Users Retrieved");
 	}
 	
 	public static Employee getEmployee(int id) {
@@ -60,12 +62,32 @@ public class EmployeesAPI {
 		session.beginTransaction();
 		Employee e = (Employee) session.get(Employee.class, id);
 		e.displayData();
-		//terminate session factory, otherwise program won't end
-		HibernateUtil.getSessionFactory().close();
+		
+		AppLogger.log.info("Employee " + id + " Retrieved");
+		
+		session.close();
+		
+		
 		return e;
 	}
 	
-	public static void update(int id, String name, Date dob, int age, int salary) {
+	public static void updateName(int id, String name) {
+		//Get Session
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		//start transaction
+		session.beginTransaction();
+		
+		Employee e = (Employee) session.get(Employee.class, id);
+		e.setName(name);
+		session.update(e);
+		session.getTransaction().commit();
+		
+		System.out.println("Employee updated successfully!");
+		e.displayData();
+		AppLogger.log.info("Employee " + id + " updated. Name changed to: " + name);
+	}
+	
+	public static void updateDob(int id, Date dob) {
 		//Get Session
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		//start transaction
@@ -73,18 +95,47 @@ public class EmployeesAPI {
 		
 		Employee e = (Employee) session.get(Employee.class, id);
 		
-		e.setName(name);
 		e.setDob(dob);
-		e.setSalary(salary);
-		e.setAge(age);
-		
 		session.update(e);
 		session.getTransaction().commit();
 		
 		System.out.println("Employee updated successfully!");
 		e.displayData();
-		//terminate session factory, otherwise program won't end
-		HibernateUtil.getSessionFactory().close();
+		AppLogger.log.info("Employee " + id + " updated. Date of Birth changed to: " + dob.toString());
+	}
+	
+	public static void updateSalary(int id, int salary) {
+		//Get Session
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		//start transaction
+		session.beginTransaction();
+		
+		Employee e = (Employee) session.get(Employee.class, id);
+		
+		e.setSalary(salary);
+		session.update(e);
+		session.getTransaction().commit();
+		
+		System.out.println("Employee updated successfully!");
+		e.displayData();
+		AppLogger.log.info("Employee " + id + " updated. Salary changed to " + salary);
+	}
+	
+	public static void updateAge(int id, int age) {
+		//Get Session
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		//start transaction
+		session.beginTransaction();
+		
+		Employee e = (Employee) session.get(Employee.class, id);
+		
+		e.setAge(age);
+		session.update(e);
+		session.getTransaction().commit();
+		
+		System.out.println("Employee updated successfully!");
+		e.displayData();
+		AppLogger.log.info("Employee " + id + " updated. Age Changed to " + age);
 	}
 	
 	public static void delete(int id) {
@@ -99,7 +150,9 @@ public class EmployeesAPI {
 		session.getTransaction().commit();
 		
 		System.out.println("Employee " + id + " deleted successfully!");
-		//terminate session factory, otherwise program won't end
-		HibernateUtil.getSessionFactory().close();
+			
+		session.close();
+		
+		AppLogger.log.info("User " + id + " deleted");
 	}
 }
